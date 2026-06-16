@@ -198,7 +198,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     const points = [
       { icon:icRobot, title:"It's not about the model.", body:"The capability curve is moving so fast that no one wins by picking the best model." },
       { icon:icChart, title:"It's not about the demo.",  body:"Demos answer \"can.\" Production answers \"should.\" Those are very different questions." },
-      { icon:icFilter,title:"It is about judgment.",     body:"Which use cases. Which guardrails. Which models. Which moments to let AI run — and which moments to keep humans in the lead." },
+      { icon:icFilter,title:"It is about judgment.",     body:"Which use cases. Which guardrails. Which models. Which moments to let AI run, and which moments to keep humans in the lead." },
     ];
     // 3×(1.10+0.18)−0.18+1.10 = 4.98 — last row ends at 4.98, clear of footer
     const ch = 1.10, cy = 1.32, gap = 0.18;
@@ -218,7 +218,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     const cols = [
       { label:"EASY",   title:"Capability",  body:"What the model can do in a demo.",                                            icon:icBolt,  dark:false },
       { label:"HARD",   title:"Deployment",  body:"Where AI actually fits in real workflows.",                                   icon:icCogs,  dark:true  },
-      { label:"HARDER", title:"Outcomes",    body:"Whether it created value — measurable, durable, governed.",                   icon:icChart, dark:true  },
+      { label:"HARDER", title:"Outcomes",    body:"Whether it created value: measurable, durable, governed.",                   icon:icChart, dark:true  },
     ];
     const cw = 2.85, cy = 1.28, ch = 3.30, gap = 0.2;
     cols.forEach((c, i) => {
@@ -299,8 +299,8 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
         x:cx+0.2, y:subY+1.65, w:cw-0.4, h:1.2, fontFace:F, fontSize:9, color:C.neutral3, margin:0, lineSpacingMultiple:1.15,
       });
     }
-    // Arrow FOUNDATION → ACTIVATION — fits within 0.08" gap (3.80 to 3.88)
-    s.addText("▶", { x:3.80, y:colY+colH/2-0.12, w:0.08, h:0.24, fontFace:F, fontSize:7, color:C.domoBlue, align:"center", valign:"middle", margin:0 });
+    // Arrow FOUNDATION → ACTIVATION — centered in 0.08" gap; image extends slightly into columns
+    s.addImage({ data:icArrow, x:3.76, y:colY+colH/2-0.08, w:0.16, h:0.16 });
 
     // ── ACTIVATION ───────────────────────────────────────────────────────────
     {
@@ -318,8 +318,8 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
         x:cx+0.15, y:circY+1.25, w:cw-0.3, h:1.6, fontFace:F, fontSize:9, color:C.neutral3, align:"center", margin:0, lineSpacingMultiple:1.15,
       });
     }
-    // Arrow ACTIVATION → DISTRIBUTION — fits within 0.08" gap (6.03 to 6.11)
-    s.addText("▶", { x:6.03, y:colY+colH/2-0.12, w:0.08, h:0.24, fontFace:F, fontSize:7, color:C.domoBlue, align:"center", valign:"middle", margin:0 });
+    // Arrow ACTIVATION → DISTRIBUTION — centered in 0.08" gap; image extends slightly into columns
+    s.addImage({ data:icArrow, x:5.99, y:colY+colH/2-0.08, w:0.16, h:0.16 });
 
     // ── DISTRIBUTION ──────────────────────────────────────────────────────────
     {
@@ -332,7 +332,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
       s.addShape(pres.shapes.OVAL, { x:circX, y:circY, w:cs, h:cs, fill:{color:C.neutral1} });
       s.addImage({ data:icUsers, x:circX+(cs-0.34)/2, y:circY+(cs-0.34)/2, w:0.34, h:0.34 });
       s.addText("Distribute to people to drive outcomes", { x:cx+0.15, y:circY+0.62, w:cw-0.3, h:0.55, fontFace:F, fontSize:11, bold:true, color:C.white, align:"center", margin:0, lineSpacingMultiple:0.95 });
-      s.addText("On mobile, embedded, or MCP — delivered in the workflows your people already use.", {
+      s.addText("On mobile, embedded, or MCP, delivered in the workflows your people already use.", {
         x:cx+0.15, y:circY+1.25, w:cw-0.3, h:1.6, fontFace:F, fontSize:9, color:C.neutral3, align:"center", margin:0, lineSpacingMultiple:1.15,
       });
     }
@@ -374,13 +374,13 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     const s = pres.addSlide();
     s.background = { color:C.white };
     addFooter(s, pres, 5);
-    titleBar(s, pres, "The Framework", "Five lenses for deciding when AI should. Each one is a filter — if it fails any of them, the answer is probably \"not here, not yet.\"");
+    titleBar(s, pres, "The Framework", "Five lenses for deciding when AI should. Each one is a filter. If it fails any of them, the answer is probably \"not here, not yet.\"");
     const lenses = [
       { n:1, icon:icLock,   title:"Lock It Down",              body:"Discovery, or production? Probabilistic, or deterministic?" },
       { n:2, icon:icLayer,  title:"Context Is the Moat",       body:"The model is commodity. Your context isn't." },
       { n:3, icon:icEye,    title:"Governance & Observability", body:"Can you see what AI is doing?" },
       { n:4, icon:icShield, title:"Security & Compliance",      body:"Can the data even go to the model?" },
-      { n:5, icon:icCoins,  title:"Token Economics",            body:"Frequency, model, trigger — chosen on purpose?" },
+      { n:5, icon:icCoins,  title:"Token Economics",            body:"Frequency, model, trigger: chosen on purpose?" },
     ];
     const lh = 0.62, ly0 = 1.38, gap = 0.10;
     lenses.forEach((l, i) => {
@@ -405,7 +405,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 6);
     lensChip(s, "LENS 1");
-    titleBar(s, pres, "Two Ways a System Can Answer", "Probabilistic vs. Deterministic. Both have a place — knowing which one a task wants is half the job.", true);
+    titleBar(s, pres, "Two Ways a System Can Answer", "Probabilistic vs. Deterministic. Both have a place. Knowing which one a task wants is half the job.", true);
     const cols = [
       { label:"PROBABILISTIC", sub:"Same question. Different answer each time.", what:"What AI is", whatBody:"Generates plausible answers from a model.", best:"Open questions. Exploration. Drafting. Synthesis. Pattern-finding in messy data.", warn:"Answers that need to match every time. Audit. Compliance. High-volume reruns.", hdr:C.domoBlue, dark:false },
       { label:"DETERMINISTIC",  sub:"Same input. Same answer. Every time.",       what:"What code is", whatBody:"Same logic runs the same way each time.",  best:"Reproducible rollups. Compliance reporting. Anything you'll re-run at scale.", warn:"Brittleness when the question changes. Needs upfront work to define the logic.",   hdr:C.charcoal, dark:true  },
@@ -440,8 +440,8 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     lensChip(s, "LENS 1");
     titleBar(s, pres, "From Text Message to Production App", "What started as an ad-hoc question became a system. The shape of the work changed at every stage.", true);
     const stages = [
-      { n:"1", stage:"STAGE 1", head:"The Text",       sub:"CONVERSATION",  mode:"Probabilistic", body:"CEO sends a question over text. AI helps explore — what angles matter, what does the data look like, what's the right cut." },
-      { n:"2", stage:"STAGE 2", head:"Walking the Data", sub:"ITERATION",   mode:"Probabilistic", body:"Working through the data live, with AI as a thinking partner. The answer isn't final yet — but the logic is forming." },
+      { n:"1", stage:"STAGE 1", head:"The Text",       sub:"CONVERSATION",  mode:"Probabilistic", body:"CEO sends a question over text. AI helps explore: what angles matter, what does the data look like, what's the right cut." },
+      { n:"2", stage:"STAGE 2", head:"Walking the Data", sub:"ITERATION",   mode:"Probabilistic", body:"Working through the data live, with AI as a thinking partner. The answer isn't final yet, but the logic is forming." },
       { n:"3", stage:"STAGE 3", head:"Hardened",        sub:"PRODUCTION",   mode:"Deterministic", body:"Python in Magic ETL + a Domo app. Same answer every day. Audit-friendly. Zero AI cost on every refresh.", dark:true },
     ];
     const sw = 2.85, sy = 1.28, sh = 3.5, gap = 0.2;
@@ -478,7 +478,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 8);
     lensChip(s, "LENS 1");
-    titleBar(s, pres, "Think Outside. Run Inside.", "Discovery happens in conversation. Production happens in governed tools — with the right mix per task.", true);
+    titleBar(s, pres, "Think Outside. Run Inside.", "Discovery happens in conversation. Production happens in governed tools, with the right mix per task.", true);
     const cw = 4.3, cy = 1.28, ch = 3.55, gap = 0.3;
     // Discovery column
     {
@@ -488,7 +488,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
       s.addText("DISCOVERY  ·  THE THINKING", { x:cx, y:cy, w:cw, h:0.28, fontFace:F, fontSize:9, bold:true, color:C.charcoal, align:"center", valign:"middle", margin:0 });
       s.addText("Probabilistic. Conversational. Where the answer is still forming.", { x:cx, y:cy+0.28, w:cw, h:0.18, fontFace:F, fontSize:7.5, color:C.charcoal, align:"center", margin:0 });
       const tools = [
-        { label:"Claude / Gemini / Cursor  via MCP", sub:"Open protocol — AI tools connect securely to your data." },
+        { label:"Claude / Gemini / Cursor  via MCP", sub:"Open protocol. AI tools connect securely to your data." },
         { label:"Domo AI Chat",                      sub:"Grounded in your data." },
       ];
       let ty = cy+0.6;
@@ -502,7 +502,8 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     }
     // Arrow — centered in 0.30" gap (4.85 to 5.15), ends at 5.075 well clear of Production
     s.addImage({ data:icArrow, x:4.93, y:cy+ch/2-0.08, w:0.15, h:0.15 });
-    s.addText("hardens into", { x:4.87, y:cy+ch/2+0.08, w:0.26, h:0.25, fontFace:F, fontSize:6.5, italic:true, color:C.neutral4, align:"center", margin:0 });
+    s.addShape(pres.shapes.RECTANGLE, { x:4.50, y:cy+ch/2+0.06, w:1.00, h:0.22, fill:{color:C.white}, line:{color:C.neutral3, width:0.75} });
+    s.addText("hardens into", { x:4.50, y:cy+ch/2+0.06, w:1.00, h:0.22, fontFace:F, fontSize:9, italic:true, color:C.neutral4, align:"center", valign:"middle", margin:0 });
     // Production column
     {
       const cx = 5.15;
@@ -573,7 +574,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 10);
     lensChip(s, "LENS 2");
-    titleBar(s, pres, "The Four Steps for Agentic Success", "Instructions, LLM, Tools, Knowledge — configured together in Domo.", true);
+    titleBar(s, pres, "The Four Steps for Agentic Success", "Instructions, LLM, Tools, and Knowledge, configured together in Domo.", true);
     // Left: 4-pillar list
     const pillars = [
       { icon:icRobot, label:"LLM"          },
@@ -584,7 +585,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     pillarList(s, pres, 0.55, 1.32, 3.3, pillars, -1);
     // Right: screenshot of Domo Text Generation tile (6:3 ratio → w:5.5, h:2.75)
     s.addImage({ data:scr10, x:4.1, y:1.32, w:5.5, h:2.75, sizing:{type:"contain", w:5.5, h:2.75} });
-    s.addText("Domo AI Agent builder — configuring Instructions, LLM, Knowledge, and Tools in one place.", {
+    s.addText("Domo AI Agent builder: configuring Instructions, LLM, Knowledge, and Tools in one place.", {
       x:4.1, y:4.15, w:5.5, h:0.62, fontFace:F, fontSize:8.5, italic:true, color:C.neutral4, margin:0, lineSpacingMultiple:1.1,
     });
   }
@@ -597,7 +598,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 11);
     lensChip(s, "LENS 2");
-    titleBar(s, pres, "Adjusting Instructions", "Changing the system prompt changes the output — same data, completely different voice.", true);
+    titleBar(s, pres, "Adjusting Instructions", "Changing the system prompt changes the output. Same data, completely different voice.", true);
     // Instruction quote chip
     s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:1.32, w:8.9, h:0.5, fill:{color:C.charcoal}, shadow:mkShadow() });
     s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:1.32, w:0.06, h:0.5, fill:{color:C.domoBlue}, line:{color:C.domoBlue} });
@@ -607,7 +608,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     ], { x:0.72, y:1.32, w:8.55, h:0.5, fontFace:F, fontSize:9.5, valign:"middle", margin:0 });
     // Output screenshot (7:3 ratio → w:7.0, h:2.88); reduced to leave room for caption
     s.addImage({ data:scr11, x:1.5, y:1.9, w:7.0, h:2.88, sizing:{type:"contain", w:7.0, h:2.88} });
-    s.addText("Actual agent output — two LinkedIn posts from the same LinkedIn dataset, shaped by the instruction.", {
+    s.addText("Actual agent output: two LinkedIn posts from the same LinkedIn dataset, shaped by the instruction.", {
       x:1.5, y:4.83, w:7.0, h:0.15, fontFace:F, fontSize:7.5, italic:true, color:C.neutral4, margin:0,
     });
   }
@@ -620,7 +621,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 12);
     lensChip(s, "LENS 2");
-    titleBar(s, pres, "Expanding Context in Domo Workflows", "The same four pillars — Instructions, LLM, Knowledge, Tools — configured inside Domo Workflows.", true, 2);
+    titleBar(s, pres, "Expanding Context in Domo Workflows", "Four pillars: Instructions, LLM, Knowledge, Tools, configured inside Domo Workflows.", true, 2);
     // Content starts at y:1.72 (lines=2 titleBar: accentY=1.30, sub ends 1.68, +0.04 gap)
     s.addImage({ data:scr12, x:0.55, y:1.72, w:3.55, h:3.22, sizing:{type:"contain", w:3.55, h:3.22} });
     const pillars12 = [
@@ -640,7 +641,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 13);
     lensChip(s, "LENS 2");
-    titleBar(s, pres, "Knowledge (structured and unstructured)", "What the model can reference — DataSets, Document Collections, Files.", true, 2);
+    titleBar(s, pres, "Knowledge (structured and unstructured)", "What the model can reference: DataSets, Document Collections, Files.", true, 2);
     // Content starts at y:1.72 (lines=2 titleBar)
     s.addImage({ data:scr13, x:0.55, y:1.72, w:3.55, h:3.22, sizing:{type:"contain", w:3.55, h:3.22} });
     const pillars13 = [
@@ -662,7 +663,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     lensChip(s, "LENS 2");
     s.addText("Tools: What the Model Can Do", { x:0.6, y:0.28, w:7.5, h:0.58, fontFace:F, fontSize:30, bold:true, color:C.charcoal, margin:0, lineSpacingMultiple:0.95 });
     s.addShape(pres.shapes.RECTANGLE, { x:0.6, y:0.88, w:1.4, h:0.04, fill:{color:C.domoBlue}, line:{color:C.domoBlue} });
-    s.addText("APIs, datasets, and actions the agent can invoke — inside your governed environment.", { x:0.6, y:0.98, w:7.5, h:0.28, fontFace:F, fontSize:10, color:C.neutral4, margin:0 });
+    s.addText("APIs, datasets, and actions the agent can invoke, inside your governed environment.", { x:0.6, y:0.98, w:7.5, h:0.28, fontFace:F, fontSize:10, color:C.neutral4, margin:0 });
     // Left: Tools tab screenshot (4:4 square → 3.6×3.6)
     s.addImage({ data:scr14, x:0.55, y:1.32, w:3.6, h:3.6, sizing:{type:"contain", w:3.6, h:3.6} });
     // Right: pillar list with Tools highlighted (index 3)
@@ -687,7 +688,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     const panels = [
       { title:"THE WORKLOAD",       body:"AI agents read omnichannel engagement data and summarize patterns by product line and channel for the commercial team.",                                                                 icon:icInd },
       { title:"WHAT MAKES IT WORK", body:"Their own channel taxonomy. Their own product history. Their own market segmentation. This is what an established enterprise has that no foundation-model vendor will ever ship.",     icon:icLayer },
-      { title:"THE LESSON",         body:"Decades of customer context, taxonomy, history, judgment. The moat is the organisation of that context — not the model that operates on it.",                                           icon:icDB, dark:true },
+      { title:"THE LESSON",         body:"Decades of customer context, taxonomy, history, judgment. The moat is the organisation of that context, not the model that operates on it.",                                             icon:icDB, dark:true },
     ];
     const pw = 2.85, py = 1.28, ph = 3.55, gap = 0.2;
     panels.forEach((p, i) => {
@@ -728,7 +729,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.addText([
       { text:"\"An AI-first firm runs on ", options:{color:C.neutral3} },
       { text:"a scalable decision factory",   options:{color:C.domoBlue, bold:true} },
-      { text:" — and like any factory, that means data pipelines, experimentation, software infrastructure, and clear, multidisciplinary governance.\"", options:{color:C.neutral3} },
+      { text:", and like any factory, that means data pipelines, experimentation, software infrastructure, and clear, multidisciplinary governance.\"", options:{color:C.neutral3} },
     ], { x:0.78, y:3.65, w:8.5, h:0.72, fontFace:F, fontSize:10, margin:0, lineSpacingMultiple:1.2 });
     s.addText("M. Iansiti & K. Lakhani, Harvard Business School, \"Competing in the Age of AI\"", {
       x:0.78, y:4.38, w:8.5, h:0.28, fontFace:F, fontSize:8, italic:true, color:C.neutral4, margin:0,
@@ -743,11 +744,11 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 17);
     lensChip(s, "LENS 3");
-    titleBar(s, pres, "Governance Isn't a Posture. It's Plumbing.", "The same controls that govern people should govern AI — and in Domo they are the same controls.", true, 2);
+    titleBar(s, pres, "Governance Isn't a Posture. It's Plumbing.", "The same controls that govern people should govern AI. In Domo, they are the same controls.", true, 2);
     // Content at y:1.72 (lines=2). Cards reduced to ph:1.42, gap:0.18 so 2 rows end at 4.74; quote fits at y:4.78.
     const prims = [
       { title:"Row-Level Security", body:"An AI agent sees only the rows that user is allowed to see. PDP rules that protect dashboards protect AI responses.",          icon:icKey    },
-      { title:"Column Masking",     body:"PII and sensitive fields masked at the column level. AI agents inherit the mask — they cannot reveal what the user couldn't.", icon:icShield },
+      { title:"Column Masking",     body:"PII and sensitive fields masked at the column level. AI agents inherit the mask. They cannot reveal what the user couldn't.", icon:icShield },
       { title:"OAuth / SSO",        body:"Identity flows through to every AI interaction. No service accounts. No shared credentials. Every action is attributable.",    icon:icUserSh },
       { title:"Audit Trail",        body:"Every prompt, response, dataset access, and model invocation is logged. The same audit posture extends to AI.",               icon:icClip   },
     ];
@@ -771,7 +772,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 18);
     lensChip(s, "LENS 3");
-    titleBar(s, pres, "Every Request. Every Dataset. Logged.", "Domo Stats AI Activity Log — every prompt, dataset access, model, and status. Governance built in.", true, 2);
+    titleBar(s, pres, "Every Request. Every Dataset. Logged.", "Domo Stats AI Activity Log: every prompt, dataset access, model, and status. Governance built in.", true, 2);
     // Content at y:1.72 (lines=2). Screenshot h:2.90 so it ends at 4.62, chips at y:4.70 unchanged.
     s.addImage({ data:scr18, x:0.55, y:1.72, w:8.9, h:2.90, sizing:{type:"contain", w:8.9, h:2.90} });
     // Field chips below — fy:4.70+fh:0.24 = 4.94, clear of footer at 5.15
@@ -794,7 +795,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 19);
     lensChip(s, "LENS 4");
-    titleBar(s, pres, "Security & Compliance", "When the data can't go to the model. In regulated work, this is the first filter — not an afterthought.", true);
+    titleBar(s, pres, "Security & Compliance", "When the data can't go to the model. In regulated work, this is the first filter, not an afterthought.", true);
     const cw = 4.3, cy = 1.28, ch = 3.55, gap = 0.3;
     // Constraint
     {
@@ -802,7 +803,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
       s.addShape(pres.shapes.RECTANGLE, { x:cx, y:cy, w:cw, h:ch, fill:{color:C.neutral1}, shadow:mkShadow() });
       s.addShape(pres.shapes.RECTANGLE, { x:cx, y:cy, w:cw, h:0.42, fill:{color:C.domoBlue} });
       s.addText("THE CONSTRAINT", { x:cx, y:cy, w:cw, h:0.42, fontFace:F, fontSize:11, bold:true, color:C.charcoal, align:"center", valign:"middle", margin:0 });
-      s.addText("Regulated data, contracts, audit trails — non-negotiable.", { x:cx+0.18, y:cy+0.55, w:cw-0.36, h:0.42, fontFace:F, fontSize:11, bold:true, color:C.charcoal, margin:0, lineSpacingMultiple:0.95 });
+      s.addText("Regulated data, contracts, audit trails: non-negotiable.", { x:cx+0.18, y:cy+0.55, w:cw-0.36, h:0.42, fontFace:F, fontSize:11, bold:true, color:C.charcoal, margin:0, lineSpacingMultiple:0.95 });
       s.addText("A mandated, centrally-governed AI platform is a constraint working as designed. But governed-by-default doesn't mean the same model is right for every use case.", {
         x:cx+0.18, y:cy+1.1, w:cw-0.36, h:0.85, fontFace:F, fontSize:10, color:C.neutral4, margin:0, lineSpacingMultiple:1.15,
       });
@@ -817,7 +818,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
       const items = [
         "Inference inside your cloud.",
         "Your governance, your audit trail.",
-        "Match the model to the job — not the other way around.",
+        "Match the model to the job, not the other way around.",
         "BYO Model = no token-credit charges on customer-provided models.",
       ];
       let iy = cy+1.08;
@@ -839,7 +840,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 20);
     lensChip(s, "LENS 4");
-    titleBar(s, pres, "In Practice: A Real Production AI Workflow", "A regulated financial-services firm — identifying details removed.", true, 2);
+    titleBar(s, pres, "In Practice: A Real Production AI Workflow", "A regulated financial-services firm. Identifying details removed.", true, 2);
     // Content at y:1.72 (lines=2). Steps sh:1.80 ends at 3.52; WHY block starts at 3.60.
     const steps = [
       { label:"Claims & Risk Data",   sub:"Core systems of record",       icon:icDB },
@@ -867,7 +868,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:3.60, w:8.9, h:1.20, fill:{color:C.charcoal}, shadow:mkShadow() });
     s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:3.60, w:0.07, h:1.20, fill:{color:C.accentOrange}, line:{color:C.accentOrange} });
     s.addText("WHY THIS PASSES LENS 4", { x:0.78, y:3.67, w:8.5, h:0.28, fontFace:F, fontSize:9, bold:true, color:C.accentOrange, margin:0 });
-    s.addText("The sensitive data never crosses a trust boundary the firm doesn't already own. The AI does real, high-value work — inside the same governance envelope that protects regulated data today. That's the test.", {
+    s.addText("The sensitive data never crosses a trust boundary the firm doesn't already own. The AI does real, high-value work inside the same governance envelope that protects regulated data today. That's the test.", {
       x:0.78, y:3.99, w:8.5, h:0.75, fontFace:F, fontSize:10, color:C.neutral3, margin:0, lineSpacingMultiple:1.2,
     });
   }
@@ -891,7 +892,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     // Right panel
     s.addShape(pres.shapes.RECTANGLE, { x:4.65, y:1.28, w:4.8, h:3.5, fill:{color:C.neutral1}, shadow:mkShadow() });
     s.addShape(pres.shapes.RECTANGLE, { x:4.65, y:1.28, w:4.8, h:0.06, fill:{color:C.domoBlue}, line:{color:C.domoBlue} });
-    s.addText("Representative sample — 4 of 90 published model SKUs", {
+    s.addText("Representative sample: 4 of 90 published model SKUs", {
       x:4.85, y:1.42, w:4.4, h:0.3, fontFace:F, fontSize:8.5, color:C.neutral4, margin:0,
     });
     const rows = [
@@ -923,7 +924,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 22);
     lensChip(s, "LENS 5");
-    titleBar(s, pres, "Three Questions Before You Ship", "Each one is a knob — set it wrong, and the use case fails the lens.", true);
+    titleBar(s, pres, "Three Questions Before You Ship", "Each one is a knob. Set it wrong and the use case fails the lens.", true);
     const decisions = [
       { n:1, label:"FREQUENCY", title:"How often does this need to run?",    body:"Every record? Every refresh? On demand? If the answer is \"every refresh,\" lock it down (Lens 1).", icon:icBolt },
       { n:2, label:"MODEL",     title:"Which tier is right for the job?",    body:"Routine classification rarely needs the most expensive model. Reserve premium tiers for novel reasoning and sensitive output.", icon:icRobot },
@@ -954,13 +955,13 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     const s = pres.addSlide();
     s.background = { color:C.white };
     addFooter(s, pres, 23);
-    titleBar(s, pres, "The Framework", "A checklist, not a rulebook. If a use case passes all five lenses, ship it. If it fails one, fix that first — or pick a different use case.");
+    titleBar(s, pres, "The Framework", "A checklist, not a rulebook. If a use case passes all five lenses, ship it. If it fails one, fix that first, or pick a different use case.");
     const items = [
       { n:1, icon:icLock,   title:"Lock It Down",              q:"Is this discovery, or is this production?" },
       { n:2, icon:icLayer,  title:"Context Is the Moat",       q:"Is the AI grounded in your context?" },
       { n:3, icon:icEye,    title:"Governance & Observability", q:"Can you see what AI is doing?" },
       { n:4, icon:icShield, title:"Security & Compliance",      q:"Can the data even go to the model?" },
-      { n:5, icon:icCoins,  title:"Token Economics",            q:"Frequency, model, and trigger — chosen on purpose?" },
+      { n:5, icon:icCoins,  title:"Token Economics",            q:"Frequency, model, and trigger: chosen on purpose?" },
     ];
     const ih = 0.64, iy0 = 1.35, gap = 0.14;
     items.forEach((it, i) => {
@@ -1020,7 +1021,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.addText("APPENDIX", { x:0.65, y:1.4, w:8.5, h:0.42, fontFace:F, fontSize:13, bold:true, color:C.neutral4, charSpacing:2, margin:0 });
     s.addText("AI Solutions in the Wild", { x:0.65, y:1.88, w:8.5, h:0.9, fontFace:F, fontSize:42, bold:true, color:C.charcoal, margin:0, lineSpacingMultiple:0.92 });
     s.addShape(pres.shapes.RECTANGLE, { x:0.65, y:2.82, w:2.2, h:0.04, fill:{color:C.domoBlue}, line:{color:C.domoBlue} });
-    s.addText("Five anonymized production patterns — same five lenses, real workloads.", { x:0.65, y:2.96, w:8.5, h:0.38, fontFace:F, fontSize:13, color:C.neutral4, margin:0 });
+    s.addText("Five anonymized production patterns, same five lenses, real workloads.", { x:0.65, y:2.96, w:8.5, h:0.38, fontFace:F, fontSize:13, color:C.neutral4, margin:0 });
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -1030,13 +1031,13 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     const s = pres.addSlide();
     s.background = { color:C.white };
     addFooter(s, pres, 27);
-    titleBar(s, pres, "AI Solutions in the Wild", "Five anonymized production patterns from real customers — details removed, figures rounded.");
+    titleBar(s, pres, "AI Solutions in the Wild", "Five anonymized production patterns from real customers. Details removed, figures rounded.");
     const cases = [
-      { n:1, sector:"Retail / Telecom",    body:"Batch classification at scale — ~33 billion tokens a month through one solution." },
-      { n:2, sector:"Manufacturing",       body:"A right-sized model mix — 25 solutions across small, medium, and interactive tiers." },
-      { n:3, sector:"Insurance",           body:"Tiered escalation — routine work on a small model, a premium model for hard cases." },
-      { n:4, sector:"Financial Services",  body:"Org-wide adoption — 44 distinct AI solutions in production across the business." },
-      { n:5, sector:"Sports & Leisure",    body:"One focused use case — a single solution on an off-the-shelf model." },
+      { n:1, sector:"Retail / Telecom",    body:"Batch classification at scale: ~33 billion tokens a month through one solution." },
+      { n:2, sector:"Manufacturing",       body:"A right-sized model mix: 25 solutions across small, medium, and interactive tiers." },
+      { n:3, sector:"Insurance",           body:"Tiered escalation: routine work on a small model, a premium model for hard cases." },
+      { n:4, sector:"Financial Services",  body:"Org-wide adoption: 44 distinct AI solutions in production across the business." },
+      { n:5, sector:"Sports & Leisure",    body:"One focused use case: a single solution on an off-the-shelf model." },
     ];
     // ch:0.62 + gap:0.12 → last row ends at 1.35+4×0.74+0.62 = 4.93, clear of footer
     const ch = 0.62, cy0 = 1.35, gap = 0.12;
