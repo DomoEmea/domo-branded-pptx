@@ -1,0 +1,11 @@
+# Stray generation scripts (one-off outputs, not part of the skill)
+gen_*.js
+*_gen.js
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Node artifacts if someone runs npm here
+node_modules/
+*.log
