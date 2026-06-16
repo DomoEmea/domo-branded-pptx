@@ -438,13 +438,15 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 7);
     lensChip(s, "LENS 1");
-    titleBar(s, pres, "From Text Message to Production App", "What started as an ad-hoc question became a system. The shape of the work changed at every stage.", true);
+    // lines=2: title wraps ("From Text Message to Production" / "App") → accentY=1.30, content ≥ y:1.72
+    // sy:1.72, sh:3.10 → cards end at 4.82; callout at y:4.88 gives 0.06" gap; body h:2.00 ends at 4.77
+    titleBar(s, pres, "From Text Message to Production App", "What started as an ad-hoc question became a system. The shape of the work changed at every stage.", true, 2);
     const stages = [
       { n:"1", stage:"STAGE 1", head:"The Text",       sub:"CONVERSATION",  mode:"Probabilistic", body:"CEO sends a question over text. AI helps explore: what angles matter, what does the data look like, what's the right cut." },
       { n:"2", stage:"STAGE 2", head:"Walking the Data", sub:"ITERATION",   mode:"Probabilistic", body:"Working through the data live, with AI as a thinking partner. The answer isn't final yet, but the logic is forming." },
       { n:"3", stage:"STAGE 3", head:"Hardened",        sub:"PRODUCTION",   mode:"Deterministic", body:"Python in Magic ETL + a Domo app. Same answer every day. Audit-friendly. Zero AI cost on every refresh.", dark:true },
     ];
-    const sw = 2.85, sy = 1.28, sh = 3.5, gap = 0.2;
+    const sw = 2.85, sy = 1.72, sh = 3.10, gap = 0.2;
     stages.forEach((st, i) => {
       const sx = 0.55 + i*(sw+gap);
       const dark = !!st.dark;
@@ -461,7 +463,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
       s.addShape(pres.shapes.RECTANGLE, { x:modeX, y:modeY, w:modeW, h:0.28, fill:{color: dark?"1E2328":C.neutral2} });
       s.addText(st.sub,  { x:modeX, y:modeY, w:modeW/2, h:0.28, fontFace:F, fontSize:8, color:bc, align:"left",  valign:"middle", margin:4 });
       s.addText(st.mode, { x:modeX+modeW/2, y:modeY, w:modeW/2, h:0.28, fontFace:F, fontSize:8, bold:true, color:dark?C.domoBlue:C.charcoal, align:"right", valign:"middle", margin:4 });
-      s.addText(st.body, { x:sx+0.18, y:sy+1.05, w:sw-0.36, h:2.35, fontFace:F, fontSize:10, color:bc, margin:0, lineSpacingMultiple:1.2 });
+      s.addText(st.body, { x:sx+0.18, y:sy+1.05, w:sw-0.36, h:2.00, fontFace:F, fontSize:10, color:bc, margin:0, lineSpacingMultiple:1.2 });
       if (i < 2) s.addImage({ data:icArrow, x:sx+sw+0.02, y:sy+sh/2-0.08, w:0.16, h:0.16 });
     });
     s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:4.88, w:8.9, h:0.26, fill:{color:C.neutral1} });
