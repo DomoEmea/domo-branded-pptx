@@ -135,3 +135,4 @@ Full palette, typography table, icon rules, and QA process are in [`SKILL.md`](.
 | 2026-06-16 | Added 5 anti-pattern rules to SKILL.md: arrow gap math, multi-row overflow formula, logo clearance, bar chart bounds, zero-height text boxes |
 | 2026-06-16 | Fixed slide 2 card overflow (ch:1.22→1.10, gap:0.22→0.18 — last card now ends at y:4.98); extended multi-row rule in SKILL.md to cover card() helper |
 | 2026-06-16 | Fixed title/LENS-chip overlap on slide 20 (and all 13 other LENS slides): titleBar() now accepts hasChip flag, caps title+subtitle to w:7.5 when true; SKILL.md rule updated |
+| 2026-06-16 | Fixed icon centering on slides 3, 16, 22: vertically centered content blocks using padding formula; tightened oversized body text boxes (h:1.4→h:0.55, h:1.0→h:0.80, h:1.45→h:0.85); added 2 SKILL.md rules (center-content-block formula, body-box sizing) |

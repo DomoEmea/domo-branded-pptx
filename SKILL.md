@@ -495,6 +495,13 @@ s.addNotes(
 - **Don't position the primary logo where it overlaps other content** — on dark (gradient/charcoal) slides the primary logo sits at `x:0.0, y:0.0, w:0.92, h:0.92`. Any banner, shape, or text placed below it must start at `y ≥ 0.94` (logo bottom 0.92 + 0.02 clearance). Placing a banner at `y:0.84` while the logo bottom is `y:0.92` causes an 0.08" overlap.
 - **Don't place bar chart bars that exceed the panel or slide right margin** — compute max bar right edge: `bx + maxBarWidth ≤ panel_x + panel_w` AND `≤ 9.5`. Scale `maxBarWidth` to the available space: `maxBarWidth = min(panel_w - (bx - panel_x) - 0.05, 9.5 - bx - 0.05)`. Both the background track and the filled bar must use this capped width.
 - **Don't write caption text boxes with `h:0` or `fontSize:0`** — PptxGenJS passes the text to PowerPoint, which auto-sizes zero-height boxes using its own default font size. The resulting text can appear anywhere and overflow the footer. Always give caption text boxes a real positive height (`h ≥ 0.12`) and a real font size (`fontSize ≥ 7`).
+- **Don't use hardcoded icon offsets in tall card columns — vertically center the content block instead.** When an icon, title, and body are stacked vertically inside a card, compute the total content height and distribute padding symmetrically:
+  1. Measure: `contentH = iconSize + titleGap + titleH + bodyGap + bodyH`
+  2. Available: `availH = cardH - headerBandH`
+  3. Padding: `pad = (availH - contentH) / 2`
+  4. `circY = cardTopY + headerBandH + pad`
+  A fixed offset like `circY = cy + 0.58` only works at the exact card height it was written for. When `cardH` changes, the icon drifts top-heavy and leaves empty space at the card bottom.
+- **Don't over-size body text boxes in card columns.** A body box `h:1.4` for 1–2 lines of text leaves ~1" of invisible empty space at the bottom. Estimate body height from line count: at 10pt with `lineSpacingMultiple:1.2`, each line ≈ 0.25". Use that to size `h` instead of a blanket "big enough" value. Oversized body boxes compound with a non-centered icon offset to make content look clustered at the top of the card.
 
 ## QA (Required)
 

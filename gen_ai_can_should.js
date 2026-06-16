@@ -218,12 +218,14 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
       s.addShape(pres.shapes.RECTANGLE, { x:cx, y:cy, w:cw, h:0.42, fill:{color:C.domoBlue} });
       s.addText(c.label, { x:cx, y:cy, w:cw, h:0.42, fontFace:F, fontSize:11, bold:true, color:C.charcoal, align:"center", valign:"middle", margin:0 });
       // Icon
-      const cs = 0.56, circY = cy+0.58;
+      // circY centers the content block (icon 0.56 + gap 0.14 + title 0.44 + gap 0.06 + body 0.55 = 1.75)
+      // within available height (ch 3.30 - header 0.42 = 2.88): padding = (2.88-1.75)/2 = 0.565 ≈ 0.57
+      const cs = 0.56, circY = cy+0.99;
       const circFill = c.dark ? C.neutral1 : C.charcoal;
       s.addShape(pres.shapes.OVAL, { x:cx+(cw-cs)/2, y:circY, w:cs, h:cs, fill:{color:circFill} });
       s.addImage({ data:c.icon, x:cx+(cw-cs)/2+(cs-0.36)/2, y:circY+(cs-0.36)/2, w:0.36, h:0.36 });
-      s.addText(c.title, { x:cx+0.18, y:circY+0.7, w:cw-0.36, h:0.44, fontFace:F, fontSize:15, bold:true, color:tc, align:"center", margin:0 });
-      s.addText(c.body,  { x:cx+0.18, y:circY+1.2, w:cw-0.36, h:1.4,  fontFace:F, fontSize:10, color:bc,  align:"center", margin:0, lineSpacingMultiple:1.2 });
+      s.addText(c.title, { x:cx+0.18, y:circY+0.70, w:cw-0.36, h:0.44, fontFace:F, fontSize:15, bold:true, color:tc, align:"center", margin:0 });
+      s.addText(c.body,  { x:cx+0.18, y:circY+1.20, w:cw-0.36, h:0.55, fontFace:F, fontSize:10, color:bc,  align:"center", margin:0, lineSpacingMultiple:1.2 });
     });
     s.addText("Capability is the easy part. Deployment is where most companies are stuck.", {
       x:0.55, y:4.72, w:8.9, h:0.28, fontFace:F, fontSize:9, italic:true, color:C.neutral4, margin:0,
@@ -708,10 +710,11 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
       s.addShape(pres.shapes.RECTANGLE, { x:dx, y:dy, w:dw, h:dh, fill:{color:C.neutral1}, shadow:mkShadow() });
       s.addShape(pres.shapes.RECTANGLE, { x:dx, y:dy, w:dw, h:0.42, fill:{color:C.domoBlue} });
       s.addText(d.label, { x:dx, y:dy, w:dw, h:0.42, fontFace:F, fontSize:13, bold:true, color:C.charcoal, align:"center", valign:"middle", margin:0 });
-      const cs = 0.46; const cx = dx+(dw-cs)/2; const circY = dy+0.58;
+      // circY centers content (icon 0.46 + gap 0.14 + body 0.80 = 1.40) in available (dh 2.10 - header 0.42 = 1.68): padding=(1.68-1.40)/2=0.14
+      const cs = 0.46; const cx = dx+(dw-cs)/2; const circY = dy+0.56;
       s.addShape(pres.shapes.OVAL, { x:cx, y:circY, w:cs, h:cs, fill:{color:C.charcoal} });
       s.addImage({ data:d.icon, x:cx+(cs-0.3)/2, y:circY+(cs-0.3)/2, w:0.3, h:0.3 });
-      s.addText(d.body, { x:dx+0.18, y:circY+0.6, w:dw-0.36, h:1.0, fontFace:F, fontSize:9.5, color:C.neutral4, align:"center", margin:0, lineSpacingMultiple:1.15 });
+      s.addText(d.body, { x:dx+0.18, y:circY+0.60, w:dw-0.36, h:0.80, fontFace:F, fontSize:9.5, color:C.neutral4, align:"center", margin:0, lineSpacingMultiple:1.15 });
     });
     // Quote
     s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:3.55, w:8.9, h:1.28, fill:{color:C.charcoal}, shadow:mkShadow() });
@@ -926,11 +929,13 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
       s.addText(d.label, { x:dx, y:dy, w:dw, h:0.28, fontFace:F, fontSize:9, bold:true, color:C.domoBlue, align:"center", valign:"middle", margin:0, charSpacing:1 });
       const cs = 0.36; const oy = dy+0.22;
       numberedCircle(s, pres, d.n, dx+(dw-cs)/2, oy, cs, C.domoBlue, C.charcoal, 13);
-      const cs2 = 0.52; const circX = dx+(dw-cs2)/2; const circY = dy+0.72;
+      // circY centers content (icon 0.52 + gap 0.13 + title 0.55 + gap 0.08 + body 0.85 = 2.13)
+      // in available (dh 3.55 - header 0.50 = 3.05): padding = (3.05-2.13)/2 = 0.46
+      const cs2 = 0.52; const circX = dx+(dw-cs2)/2; const circY = dy+0.96;
       s.addShape(pres.shapes.OVAL, { x:circX, y:circY, w:cs2, h:cs2, fill:{color:C.charcoal} });
       s.addImage({ data:d.icon, x:circX+(cs2-0.34)/2, y:circY+(cs2-0.34)/2, w:0.34, h:0.34 });
       s.addText(d.title, { x:dx+0.18, y:circY+0.65, w:dw-0.36, h:0.55, fontFace:F, fontSize:11, bold:true, color:C.charcoal, align:"center", margin:0, lineSpacingMultiple:0.95 });
-      s.addText(d.body,  { x:dx+0.18, y:circY+1.28, w:dw-0.36, h:1.45, fontFace:F, fontSize:10, color:C.neutral4, align:"center", margin:0, lineSpacingMultiple:1.15 });
+      s.addText(d.body,  { x:dx+0.18, y:circY+1.28, w:dw-0.36, h:0.85, fontFace:F, fontSize:10, color:C.neutral4, align:"center", margin:0, lineSpacingMultiple:1.15 });
     });
   }
 
