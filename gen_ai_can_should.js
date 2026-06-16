@@ -45,10 +45,13 @@ function addFooter(s, pres, n) {
   s.addText(String(n),               { x:9.2, y:5.2, w:0.4, h:0.3, fontFace:F, fontSize:9, bold:true, color:C.charcoal, align:"center", margin:0 });
 }
 
-function titleBar(s, pres, title, sub) {
-  s.addText(title, { x:0.6, y:0.28, w:8.8, h:0.58, fontFace:F, fontSize:30, bold:true, color:C.charcoal, margin:0, lineSpacingMultiple:0.95 });
+// hasChip: pass true when a lensChip() sits at x:8.5 — caps title+subtitle to w:7.5
+// so text never runs under the chip (chip left-edge 8.5, title right-edge 0.6+7.5=8.1).
+function titleBar(s, pres, title, sub, hasChip = false) {
+  const tw = hasChip ? 7.5 : 8.8;
+  s.addText(title, { x:0.6, y:0.28, w:tw, h:0.58, fontFace:F, fontSize:30, bold:true, color:C.charcoal, margin:0, lineSpacingMultiple:0.95 });
   s.addShape(pres.shapes.RECTANGLE,  { x:0.6, y:0.88, w:1.4, h:0.04, fill:{color:C.domoBlue}, line:{color:C.domoBlue} });
-  if (sub) s.addText(sub,            { x:0.6, y:0.98, w:8.8, h:0.28, fontFace:F, fontSize:10, color:C.neutral4, margin:0 });
+  if (sub) s.addText(sub,            { x:0.6, y:0.98, w:tw, h:0.28, fontFace:F, fontSize:10, color:C.neutral4, margin:0 });
 }
 
 function lensChip(s, label) {
@@ -387,7 +390,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 6);
     lensChip(s, "LENS 1");
-    titleBar(s, pres, "Two Ways a System Can Answer", "Probabilistic vs. Deterministic. Both have a place — knowing which one a task wants is half the job.");
+    titleBar(s, pres, "Two Ways a System Can Answer", "Probabilistic vs. Deterministic. Both have a place — knowing which one a task wants is half the job.", true);
     const cols = [
       { label:"PROBABILISTIC", sub:"Same question. Different answer each time.", what:"What AI is", whatBody:"Generates plausible answers from a model.", best:"Open questions. Exploration. Drafting. Synthesis. Pattern-finding in messy data.", warn:"Answers that need to match every time. Audit. Compliance. High-volume reruns.", hdr:C.domoBlue, dark:false },
       { label:"DETERMINISTIC",  sub:"Same input. Same answer. Every time.",       what:"What code is", whatBody:"Same logic runs the same way each time.",  best:"Reproducible rollups. Compliance reporting. Anything you'll re-run at scale.", warn:"Brittleness when the question changes. Needs upfront work to define the logic.",   hdr:C.charcoal, dark:true  },
@@ -420,7 +423,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 7);
     lensChip(s, "LENS 1");
-    titleBar(s, pres, "From Text Message to Production App", "What started as an ad-hoc question became a system. The shape of the work changed at every stage.");
+    titleBar(s, pres, "From Text Message to Production App", "What started as an ad-hoc question became a system. The shape of the work changed at every stage.", true);
     const stages = [
       { n:"1", stage:"STAGE 1", head:"The Text",       sub:"CONVERSATION",  mode:"Probabilistic", body:"CEO sends a question over text. AI helps explore — what angles matter, what does the data look like, what's the right cut." },
       { n:"2", stage:"STAGE 2", head:"Walking the Data", sub:"ITERATION",   mode:"Probabilistic", body:"Working through the data live, with AI as a thinking partner. The answer isn't final yet — but the logic is forming." },
@@ -460,7 +463,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 8);
     lensChip(s, "LENS 1");
-    titleBar(s, pres, "Think Outside. Run Inside.", "Discovery happens in conversation. Production happens in governed tools — with the right mix per task.");
+    titleBar(s, pres, "Think Outside. Run Inside.", "Discovery happens in conversation. Production happens in governed tools — with the right mix per task.", true);
     const cw = 4.3, cy = 1.28, ch = 3.55, gap = 0.3;
     // Discovery column
     {
@@ -515,7 +518,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 9);
     lensChip(s, "LENS 2");
-    titleBar(s, pres, "Context Is the Moat", "The model is commodity. Context isn't.");
+    titleBar(s, pres, "Context Is the Moat", "The model is commodity. Context isn't.", true);
     // Left: key statements
     const lw = 5.1, rw = 3.55;
     s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:1.28, w:lw, h:3.55, fill:{color:C.charcoal}, shadow:mkShadow() });
@@ -555,7 +558,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 10);
     lensChip(s, "LENS 2");
-    titleBar(s, pres, "The Four Steps for Agentic Success", "Instructions, LLM, Tools, Knowledge — configured together in Domo.");
+    titleBar(s, pres, "The Four Steps for Agentic Success", "Instructions, LLM, Tools, Knowledge — configured together in Domo.", true);
     // Left: 4-pillar list
     const pillars = [
       { icon:icRobot, label:"LLM"          },
@@ -579,7 +582,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 11);
     lensChip(s, "LENS 2");
-    titleBar(s, pres, "Adjusting Instructions", "Changing the system prompt changes the output — same data, completely different voice.");
+    titleBar(s, pres, "Adjusting Instructions", "Changing the system prompt changes the output — same data, completely different voice.", true);
     // Instruction quote chip
     s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:1.32, w:8.9, h:0.5, fill:{color:C.charcoal}, shadow:mkShadow() });
     s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:1.32, w:0.06, h:0.5, fill:{color:C.domoBlue}, line:{color:C.domoBlue} });
@@ -672,7 +675,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 15);
     lensChip(s, "LENS 2");
-    titleBar(s, pres, "In Practice: A Global Manufacturer", "Identifying details removed. The model is off-the-shelf. The value isn't.");
+    titleBar(s, pres, "In Practice: A Global Manufacturer", "Identifying details removed. The model is off-the-shelf. The value isn't.", true);
     const panels = [
       { title:"THE WORKLOAD",       body:"AI agents read omnichannel engagement data and summarize patterns by product line and channel for the commercial team.",                                                                 icon:icInd },
       { title:"WHAT MAKES IT WORK", body:"Their own channel taxonomy. Their own product history. Their own market segmentation. This is what an established enterprise has that no foundation-model vendor will ever ship.",     icon:icLayer },
@@ -693,7 +696,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 16);
     lensChip(s, "LENS 3");
-    titleBar(s, pres, "Governance & Observability", "Treat your bots like humans. Performance review. Audit trail. Ownership.");
+    titleBar(s, pres, "Governance & Observability", "Treat your bots like humans. Performance review. Audit trail. Ownership.", true);
     const dims = [
       { label:"WHO",  body:"Which users are prompting? Which roles? Which agents are acting on whose behalf?",     icon:icUsers },
       { label:"WHAT", body:"Which datasets did the model touch? Which prompts? Which responses?",                   icon:icEye },
@@ -731,7 +734,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 17);
     lensChip(s, "LENS 3");
-    titleBar(s, pres, "Governance Isn't a Posture. It's Plumbing.", "The same controls that govern people should govern AI — and in Domo they are the same controls.");
+    titleBar(s, pres, "Governance Isn't a Posture. It's Plumbing.", "The same controls that govern people should govern AI — and in Domo they are the same controls.", true);
     const prims = [
       { title:"Row-Level Security", body:"An AI agent sees only the rows that user is allowed to see. PDP rules that protect dashboards protect AI responses.",          icon:icKey    },
       { title:"Column Masking",     body:"PII and sensitive fields masked at the column level. AI agents inherit the mask — they cannot reveal what the user couldn't.", icon:icShield },
@@ -758,7 +761,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 18);
     lensChip(s, "LENS 3");
-    titleBar(s, pres, "Every Request. Every Dataset. Logged.", "Domo Stats AI Activity Log — every prompt, dataset access, model, and status. Governance built in.");
+    titleBar(s, pres, "Every Request. Every Dataset. Logged.", "Domo Stats AI Activity Log — every prompt, dataset access, model, and status. Governance built in.", true);
     // Actual AI Activity Log screenshot (5:2 ratio → w:8.9, h:3.30); reduced to leave room for chips
     s.addImage({ data:scr18, x:0.55, y:1.32, w:8.9, h:3.30, sizing:{type:"contain", w:8.9, h:3.30} });
     // Field chips below — fy:4.70+fh:0.24 = 4.94, clear of footer at 5.15
@@ -781,7 +784,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 19);
     lensChip(s, "LENS 4");
-    titleBar(s, pres, "Security & Compliance", "When the data can't go to the model. In regulated work, this is the first filter — not an afterthought.");
+    titleBar(s, pres, "Security & Compliance", "When the data can't go to the model. In regulated work, this is the first filter — not an afterthought.", true);
     const cw = 4.3, cy = 1.28, ch = 3.55, gap = 0.3;
     // Constraint
     {
@@ -826,7 +829,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 20);
     lensChip(s, "LENS 4");
-    titleBar(s, pres, "In Practice: A Real Production AI Workflow", "A regulated financial-services firm — identifying details removed.");
+    titleBar(s, pres, "In Practice: A Real Production AI Workflow", "A regulated financial-services firm — identifying details removed.", true);
     const steps = [
       { label:"Claims & Risk Data",   sub:"Core systems of record",       icon:icDB },
       { label:"Governed Boundary",    sub:"Inference inside the firm's cloud", icon:icShield },
@@ -866,7 +869,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 21);
     lensChip(s, "LENS 5");
-    titleBar(s, pres, "Tokens Are the New Compute", "The price spread between the cheapest and most expensive model on Domo's published rate card is 32×.");
+    titleBar(s, pres, "Tokens Are the New Compute", "The price spread between the cheapest and most expensive model on Domo's published rate card is 32×.", true);
     // Big stat
     s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:1.28, w:3.8, h:3.5, fill:{color:C.charcoal}, shadow:mkShadow() });
     s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:1.28, w:3.8, h:0.06, fill:{color:C.domoBlue}, line:{color:C.domoBlue} });
@@ -909,7 +912,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 22);
     lensChip(s, "LENS 5");
-    titleBar(s, pres, "Three Questions Before You Ship", "Each one is a knob — set it wrong, and the use case fails the lens.");
+    titleBar(s, pres, "Three Questions Before You Ship", "Each one is a knob — set it wrong, and the use case fails the lens.", true);
     const decisions = [
       { n:1, label:"FREQUENCY", title:"How often does this need to run?",    body:"Every record? Every refresh? On demand? If the answer is \"every refresh,\" lock it down (Lens 1).", icon:icBolt },
       { n:2, label:"MODEL",     title:"Which tier is right for the job?",    body:"Routine classification rarely needs the most expensive model. Reserve premium tiers for novel reasoning and sensitive output.", icon:icRobot },
