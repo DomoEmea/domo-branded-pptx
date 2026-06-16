@@ -39,7 +39,7 @@ async function icon64(Ic, color = "#99CCEE", size = 256) {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function addFooter(s, pres, n) {
-  s.addShape(pres.shapes.LINE,      { x:0.5, y:5.15, w:9.0, h:0, line:{color:C.domoBlue, width:0.5} });
+  s.addShape(pres.shapes.LINE,      { x:0.80, y:5.15, w:8.70, h:0, line:{color:C.domoBlue, width:0.5} });
   s.addImage({ data:logoIcon,         x:0.35, y:5.2,  w:0.38, h:0.38 });
   s.addText("CONFIDENTIAL",          { x:7.0, y:5.2, w:2.0, h:0.3, fontFace:F, fontSize:8, color:C.neutral4, align:"right", margin:0 });
   s.addText(String(n),               { x:9.2, y:5.2, w:0.4, h:0.3, fontFace:F, fontSize:9, bold:true, color:C.charcoal, align:"center", margin:0 });
