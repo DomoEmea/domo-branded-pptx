@@ -184,7 +184,8 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
       { icon:icChart, title:"It's not about the demo.",  body:"Demos answer \"can.\" Production answers \"should.\" Those are very different questions." },
       { icon:icFilter,title:"It is about judgment.",     body:"Which use cases. Which guardrails. Which models. Which moments to let AI run — and which moments to keep humans in the lead." },
     ];
-    const ch = 1.22, cy = 1.32, gap = 0.22;
+    // 3×(1.10+0.18)−0.18+1.10 = 4.98 — last row ends at 4.98, clear of footer
+    const ch = 1.10, cy = 1.32, gap = 0.18;
     points.forEach((p, i) => {
       card(s, pres, 0.55, cy + i*(ch+gap), 8.9, ch, { icon:p.icon, title:p.title, body:p.body });
     });
