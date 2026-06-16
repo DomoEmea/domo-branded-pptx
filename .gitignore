@@ -1,6 +1,6 @@
-# Stray generation scripts (one-off outputs, not part of the skill)
-gen_*.js
-*_gen.js
+# One-off scratch scripts (prefix with _ to exclude from tracking)
+_gen_*.js
+*_scratch.js
 
 # OS
 .DS_Store

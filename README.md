@@ -29,13 +29,31 @@ Keywords: *Domo slides, Domo deck, Domo presentation, Domo branding, Domo templa
 domo-branded-pptx/
 ├── SKILL.md                              # Full skill instructions (read this first)
 ├── README.md                             # This file
+├── gen_ai_can_should.js                  # Generation script: AI Can vs Should deck (27 slides)
 ├── .gitignore
 ├── assets/
 │   ├── domo_gradient_bg.png              # Title/closing slide gradient background
 │   ├── domo_logo_blue_800.png            # Primary logo: blue box + white DOMO wordmark
-│   └── domo_icon_400.png                 # Footer badge: small square DOMO icon
+│   ├── domo_icon_400.png                 # Footer badge: small square DOMO icon
+│   └── screenshots/                     # Extracted UI screenshots from source decks
+│       ├── s04_cloud_logos.png           # Snowflake, Databricks, GCP, AWS, Azure strip
+│       ├── s04_ai_logos.png              # Anthropic, OpenAI, Vertex AI, Gemini strip
+│       ├── s10_domo_text_gen.png         # Domo Text Generation tile UI
+│       ├── s11_post_summary.png          # PostSummary output example
+│       ├── s12_agent_general.png         # AI Agent General tab
+│       ├── s13_agent_knowledge.png       # AI Agent Knowledge tab
+│       ├── s14_agent_tools.png           # AI Agent Tools tab
+│       └── s18_ai_activity_log.png       # Domo AI Activity Log screenshot
 └── references/
     └── Domo Brand Guide - Colours.pptx  # Official Domo brand guide (source of truth)
+```
+
+### Running the generation script
+
+```bash
+cd /Users/arminas.juknevicius/.claude/skills/domo-branded-pptx
+NODE_PATH=$(npm root -g) node gen_ai_can_should.js
+# Output: ~/Downloads/AI_Can_vs_Should_Domo.pptx
 ```
 
 ---
@@ -105,10 +123,13 @@ Full palette, typography table, icon rules, and QA process are in [`SKILL.md`](.
 
 ## Changelog
 
-| Date       | Change                                                            |
-|------------|-------------------------------------------------------------------|
-| 2026-05-29 | Skill installed; replaced old python-pptx domo-pptx skill        |
-| 2026-06-16 | Fixed layout bug (LAYOUT_WIDE → LAYOUT_16x9)                     |
-| 2026-06-16 | Fixed logo clipping (y: -0.08 → y: 0.0 on gradient slides)       |
-| 2026-06-16 | Added title clear-logo rule for closing slides                    |
-| 2026-06-16 | Added coordinate bounds table and content limit warnings to SKILL.md |
+| Date       | Change                                                                              |
+|------------|-------------------------------------------------------------------------------------|
+| 2026-05-29 | Skill installed; replaced old python-pptx domo-pptx skill                           |
+| 2026-06-16 | Fixed layout bug (LAYOUT_WIDE → LAYOUT_16x9)                                        |
+| 2026-06-16 | Fixed logo clipping (y: -0.08 → y: 0.0 on gradient slides)                          |
+| 2026-06-16 | Added title clear-logo rule for closing slides                                       |
+| 2026-06-16 | Added coordinate bounds table and content limit warnings to SKILL.md                 |
+| 2026-06-16 | Added AI Can vs Should deck (gen_ai_can_should.js, 27 slides); retained Domo UI screenshots and original logos |
+| 2026-06-16 | Fixed 7 layout overflow/overlap issues: slide 3 footer clearance, slide 4 logo/banner overlap and column arrows, slide 5 5-row overflow, slide 8 gap arrow/text, slide 11 zero-height caption bug, slide 18 field chip overflow, slide 21 bar chart right margin, slide 27 row overflow |
+| 2026-06-16 | Added 5 anti-pattern rules to SKILL.md: arrow gap math, multi-row overflow formula, logo clearance, bar chart bounds, zero-height text boxes |
