@@ -393,16 +393,84 @@ Install if needed: `npm install -g pptxgenjs react react-dom react-icons sharp`
 ### Rebranding an existing .pptx
 
 1. Extract text from the uploaded file: `extract-text uploaded.pptx`
-2. Optionally thumbnail it: `python scripts/thumbnail.py uploaded.pptx`
-3. Map the original content to Domo-branded slide layouts
-4. Rebuild from scratch using PptxGenJS with Domo branding
-5. Run QA
+2. Thumbnail it: `python3 /Users/arminas.juknevicius/.claude/skills/pptx/scripts/thumbnail.py uploaded.pptx /tmp/orig_thumb --cols 1`
+3. **Extract embedded images** — screenshots and diagrams from the original deck add context that text alone cannot replace; always extract and carry them over:
+   ```python
+   from pptx import Presentation
+   import os
+   prs = Presentation("uploaded.pptx")
+   os.makedirs("/tmp/orig_images", exist_ok=True)
+   for si, slide in enumerate(prs.slides, 1):
+       for shape in slide.shapes:
+           if shape.shape_type == 13:
+               try:
+                   img = shape.image
+                   path = f"/tmp/orig_images/slide{si:02d}_{shape.shape_id}.{img.ext}"
+                   open(path, "wb").write(img.blob)
+                   print(f"Slide {si}: {path}  ({shape.width//914400}\" x {shape.height//914400}\")")
+               except Exception:
+                   pass  # linked images — skip
+   ```
+   Copy any screenshots you intend to embed to a stable path (e.g. the skill's `assets/screenshots/` directory) before writing the generation script.
+4. Map the original content to Domo-branded slide layouts
+5. **Retain screenshots on their original slides** — if the original slide had a UI screenshot, product screenshot, or diagram image, embed it in the rebranded slide. Use a two-column layout (text/description on one side, screenshot on the other) or a text-above/screenshot-below layout. Never drop a screenshot just because the content is being rebranded; screenshots provide concrete examples and product proof that text summaries cannot replace.
+   ```javascript
+   // Load the screenshot as base64 (do this at the top of the async block)
+   const scrImg = img64("/path/to/assets/screenshots/slideXX_screenshot.png");
+   // Embed it on the slide — use sizing:"contain" to avoid distortion
+   s.addImage({ data: scrImg, x: 0.55, y: 1.32, w: 5.5, h: 3.0,
+                sizing: { type: "contain", w: 5.5, h: 3.0 } });
+   ```
+   Aspect-ratio reference when sizing:
+   - Square (1:1) screenshot at content-area height 3.72" → use w:3.6, h:3.6
+   - 2:1 wide screenshot (e.g. 6"×3" form UI) → scale to fit: w:5.5, h:2.75
+   - 5:2 wide screenshot (e.g. activity log table) → w:8.9, h:3.56
+   - 7:3 wide screenshot (e.g. output table) → at w:7.0, h:3.0 centered: x:1.5
+6. Rebuild slides using PptxGenJS with Domo branding, screenshots embedded
+7. Run QA
 
 ### Page numbering
 
 - Title and section divider slides do NOT get page numbers or footers
 - Content slides are numbered sequentially (start at 1 for the first content slide, not the title)
 - Dark checklist slides do NOT get footers
+
+### Speaker notes: documenting changes from the original
+
+**When rebranding an existing deck, every slide where text was changed must include a speaker note** documenting exactly what was changed, why, and where the content came from. This preserves the audit trail so the presenter understands how the rebranded version differs from the source.
+
+Add notes with `slide.addNotes(text)` immediately after all `addShape`/`addText`/`addImage` calls for that slide. Use this format:
+
+```javascript
+s.addNotes(
+  "CHANGES FROM ORIGINAL (slide N):\n" +
+  "- [Element]: [what changed]. Reason: [Domo brand rule / layout constraint / etc.]\n" +
+  "- [Element]: [what changed]. Reason: [...].\n" +
+  "SOURCE: [original filename], slide [N]."
+);
+```
+
+**What to document:**
+- Text that was shortened, reworded, or split (e.g. "title shortened from 60 chars to 40 to fit 30pt bold in 8.8\" width")
+- Em-dashes replaced (brand rule: no em-dashes)
+- Colours changed (e.g. "column headers changed from orange to domoBlue per brand guide")
+- Logos or images that were dropped, added, or repositioned
+- Layout restructuring (e.g. "4-column grid replaced with left-screenshot + right-list to retain original screenshots")
+- Any slide where text was NOT changed may omit the note, or include a brief "No text changes; colour/layout only." line
+
+**Slides with logos or diagrams:** always note which logos were retained from the original, which (if any) could not be embedded, and why.
+
+Example:
+
+```javascript
+s.addNotes(
+  "CHANGES FROM ORIGINAL (slide 4):\n" +
+  "- Colour: column header fills changed from orange (#FF6600) to Domo Blue (#99CCEE). Reason: Domo brand guide specifies domoBlue as the primary accent.\n" +
+  "- Icon circles: changed from domoBlue fill to neutral1 fill. Reason: domoBlue icon on domoBlue circle is invisible (brand rule).\n" +
+  "- Logos retained: Snowflake, Databricks, GCP, AWS, Azure (cloud); Anthropic, OpenAI, Vertex AI, Gemini (AI models) — all embedded from the source file.\n" +
+  "SOURCE: OriginalDeck.pptx, slide 4."
+);
+```
 
 ## Design Don'ts
 
@@ -419,6 +487,9 @@ Install if needed: `npm install -g pptxgenjs react react-dom react-icons sharp`
 - **Don't misalign elements in a row** — an icon/glyph/label and the text it sits beside must share the same `y`, same `h`, and `valign: "middle"` (see "Row alignment rule" above). No mismatched box heights, no hand-nudged `y` offsets.
 - **Don't use domoBlue as an icon-circle fill** — a domoBlue icon inside a domoBlue circle is completely invisible. Use charcoal circle on light backgrounds, neutral1 circle on dark backgrounds (charcoal cards/panels).
 - **Don't set OVAL `w` and `h` to different values** — unequal dimensions render as an ellipse, not a circle. Always use `w === h` for every circle shape, and center it vertically within its row using `y + (rowHeight - circleSize) / 2`.
+- **Don't let a long title overflow into a LENS chip** — when a slide has both a title and a LENS chip (placed at x:8.5), cap the title text box at `w:7.5` instead of `w:8.8` so multi-word titles that wrap don't collide with the chip. Apply this whenever the title is likely to wrap to two lines.
+- **Don't drop logos when rebranding** — if the original slide contains third-party logos (cloud providers, AI vendors, partner logos), extract and re-embed them in the rebranded version. Keep the same relative positions and proportions. Apply Domo colours only to backgrounds, borders, and text — never alter the logos themselves. If a logo genuinely cannot be embedded, document it in the slide note.
+- **Don't use domoBlue-filled icon circles on dark slides** — applies to ALL slides with `charcoal` or dark panel backgrounds: use `neutral1` circle fill so the domoBlue icon glyph is actually visible.
 
 ## QA (Required)
 
