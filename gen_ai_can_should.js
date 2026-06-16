@@ -46,12 +46,19 @@ function addFooter(s, pres, n) {
 }
 
 // hasChip: pass true when a lensChip() sits at x:8.5 — caps title+subtitle to w:7.5
-// so text never runs under the chip (chip left-edge 8.5, title right-edge 0.6+7.5=8.1).
-function titleBar(s, pres, title, sub, hasChip = false) {
+// lines: number of lines the title wraps to (default 1). Each extra line adds ~0.42" to the
+// title box, pushing the accent bar and subtitle down so they never overlap the title text.
+// Content on the calling slide must start at: accentY + 0.10 + 0.28 + 0.04 = accentY + 0.42
+//   lines=1 → accentY=0.88, content ≥ y:1.30  (existing 1-line slides use y:1.28, fine)
+//   lines=2 → accentY=1.30, content ≥ y:1.72
+//   lines=3 → accentY=1.72, content ≥ y:2.14
+function titleBar(s, pres, title, sub, hasChip = false, lines = 1) {
   const tw = hasChip ? 7.5 : 8.8;
-  s.addText(title, { x:0.6, y:0.28, w:tw, h:0.58, fontFace:F, fontSize:30, bold:true, color:C.charcoal, margin:0, lineSpacingMultiple:0.95 });
-  s.addShape(pres.shapes.RECTANGLE,  { x:0.6, y:0.88, w:1.4, h:0.04, fill:{color:C.domoBlue}, line:{color:C.domoBlue} });
-  if (sub) s.addText(sub,            { x:0.6, y:0.98, w:tw, h:0.28, fontFace:F, fontSize:10, color:C.neutral4, margin:0 });
+  const titleH = 0.58 + (lines - 1) * 0.42;
+  const accentY = 0.28 + titleH + 0.02;
+  s.addText(title, { x:0.6, y:0.28, w:tw, h:titleH, fontFace:F, fontSize:30, bold:true, color:C.charcoal, margin:0, lineSpacingMultiple:0.95 });
+  s.addShape(pres.shapes.RECTANGLE,  { x:0.6, y:accentY, w:1.4, h:0.04, fill:{color:C.domoBlue}, line:{color:C.domoBlue} });
+  if (sub) s.addText(sub,            { x:0.6, y:accentY+0.10, w:tw, h:0.28, fontFace:F, fontSize:10, color:C.neutral4, margin:0 });
 }
 
 function lensChip(s, label) {
@@ -106,8 +113,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
 
   // ── Pillar list helper (right-side nav for slides 10–14) ──────────────────
   // items: [{icon, label}], highlighted: 0-based index to call out
-  function pillarList(s, pres, x, y, w, items, highlighted) {
-    const ih = 0.82, gap = 0.07;
+  function pillarList(s, pres, x, y, w, items, highlighted, ih = 0.82, gap = 0.07) {
     items.forEach((it, i) => {
       const iy = y + i * (ih + gap);
       const isDark = i === highlighted;
@@ -124,7 +130,9 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
   }
 
   // ── Shared card helper ──────────────────────────────────────────────────────
-  function card(s, pres, x, y, w, h, { icon, title, body, dark = false, accentColor = null }) {
+  // fullWidthBody: body text spans full card width from the left margin, starting below the icon.
+  // Use for tall cards where the indented-body layout looks unbalanced (e.g. 3.5" tall panels).
+  function card(s, pres, x, y, w, h, { icon, title, body, dark = false, accentColor = null, fullWidthBody = false }) {
     const bg = dark ? C.charcoal : C.neutral1;
     const tc = dark ? C.white : C.charcoal;
     const bc = dark ? C.neutral3 : C.neutral4;
@@ -140,8 +148,13 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     const tx = icon ? x + 0.78 : x + 0.18;
     const tw = icon ? w - 0.9  : w - 0.36;
     const tY = y + 0.18;
+    // body positioning: full-width starts at card left margin below the icon row; default indents under title
+    const bx = (fullWidthBody && icon) ? x + 0.18 : tx;
+    const bw = (fullWidthBody && icon) ? w - 0.36  : tw;
+    const bY = (fullWidthBody && icon) ? y + 0.72  : tY + 0.42;
+    const bH = (fullWidthBody && icon) ? h - 0.90  : h - 0.65;
     s.addText(title, { x:tx, y:tY, w:tw, h:0.38, fontFace:F, fontSize:11, bold:true, color:tc, margin:0, lineSpacingMultiple:0.95 });
-    if (body) s.addText(body, { x:tx, y:tY + 0.42, w:tw, h:h - 0.65, fontFace:F, fontSize:9.5, color:bc, margin:0, lineSpacingMultiple:1.15 });
+    if (body) s.addText(body, { x:bx, y:bY, w:bw, h:bH, fontFace:F, fontSize:9.5, color:bc, margin:0, lineSpacingMultiple:1.15 });
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -607,20 +620,16 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 12);
     lensChip(s, "LENS 2");
-    // Narrower title (w:7.5) so it doesn't run into the LENS chip
-    s.addText("Expanding Context in Domo Workflows", { x:0.6, y:0.28, w:7.5, h:0.58, fontFace:F, fontSize:30, bold:true, color:C.charcoal, margin:0, lineSpacingMultiple:0.95 });
-    s.addShape(pres.shapes.RECTANGLE, { x:0.6, y:0.88, w:1.4, h:0.04, fill:{color:C.domoBlue}, line:{color:C.domoBlue} });
-    s.addText("The same four pillars — Instructions, LLM, Knowledge, Tools — configured inside Domo Workflows.", { x:0.6, y:0.98, w:7.5, h:0.28, fontFace:F, fontSize:10, color:C.neutral4, margin:0 });
-    // Left: screenshot of AI Agent General tab (3:3 square → 3.6×3.6)
-    s.addImage({ data:scr12, x:0.55, y:1.32, w:3.6, h:3.6, sizing:{type:"contain", w:3.6, h:3.6} });
-    // Right: pillar list with Instructions highlighted (index 1)
+    titleBar(s, pres, "Expanding Context in Domo Workflows", "The same four pillars — Instructions, LLM, Knowledge, Tools — configured inside Domo Workflows.", true, 2);
+    // Content starts at y:1.72 (lines=2 titleBar: accentY=1.30, sub ends 1.68, +0.04 gap)
+    s.addImage({ data:scr12, x:0.55, y:1.72, w:3.55, h:3.22, sizing:{type:"contain", w:3.55, h:3.22} });
     const pillars12 = [
       { icon:icRobot, label:"LLM"          },
       { icon:icClip,  label:"Instructions" },
       { icon:icDB,    label:"Knowledge"    },
       { icon:icBolt,  label:"Tools"        },
     ];
-    pillarList(s, pres, 4.3, 1.32, 5.15, pillars12, 1);
+    pillarList(s, pres, 4.3, 1.72, 5.15, pillars12, 1, 0.73, 0.06);
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -631,19 +640,16 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 13);
     lensChip(s, "LENS 2");
-    s.addText("Knowledge (structured and unstructured)", { x:0.6, y:0.28, w:7.5, h:0.58, fontFace:F, fontSize:30, bold:true, color:C.charcoal, margin:0, lineSpacingMultiple:0.95 });
-    s.addShape(pres.shapes.RECTANGLE, { x:0.6, y:0.88, w:1.4, h:0.04, fill:{color:C.domoBlue}, line:{color:C.domoBlue} });
-    s.addText("What the model can reference — DataSets, Document Collections, Files.", { x:0.6, y:0.98, w:7.5, h:0.28, fontFace:F, fontSize:10, color:C.neutral4, margin:0 });
-    // Left: Knowledge tab screenshot (4:4 square → 3.6×3.6)
-    s.addImage({ data:scr13, x:0.55, y:1.32, w:3.6, h:3.6, sizing:{type:"contain", w:3.6, h:3.6} });
-    // Right: pillar list with Knowledge highlighted (index 2)
+    titleBar(s, pres, "Knowledge (structured and unstructured)", "What the model can reference — DataSets, Document Collections, Files.", true, 2);
+    // Content starts at y:1.72 (lines=2 titleBar)
+    s.addImage({ data:scr13, x:0.55, y:1.72, w:3.55, h:3.22, sizing:{type:"contain", w:3.55, h:3.22} });
     const pillars13 = [
       { icon:icRobot, label:"LLM"          },
       { icon:icClip,  label:"Instructions" },
       { icon:icDB,    label:"Knowledge"    },
       { icon:icBolt,  label:"Tools"        },
     ];
-    pillarList(s, pres, 4.3, 1.32, 5.15, pillars13, 2);
+    pillarList(s, pres, 4.3, 1.72, 5.15, pillars13, 2, 0.73, 0.06);
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -686,7 +692,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     const pw = 2.85, py = 1.28, ph = 3.55, gap = 0.2;
     panels.forEach((p, i) => {
       const px = 0.55 + i*(pw+gap);
-      card(s, pres, px, py, pw, ph, { icon:p.icon, title:p.title, body:p.body, dark:p.dark });
+      card(s, pres, px, py, pw, ph, { icon:p.icon, title:p.title, body:p.body, dark:p.dark, fullWidthBody:true });
     });
   }
 
@@ -737,22 +743,23 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 17);
     lensChip(s, "LENS 3");
-    titleBar(s, pres, "Governance Isn't a Posture. It's Plumbing.", "The same controls that govern people should govern AI — and in Domo they are the same controls.", true);
+    titleBar(s, pres, "Governance Isn't a Posture. It's Plumbing.", "The same controls that govern people should govern AI — and in Domo they are the same controls.", true, 2);
+    // Content at y:1.72 (lines=2). Cards reduced to ph:1.42, gap:0.18 so 2 rows end at 4.74; quote fits at y:4.78.
     const prims = [
       { title:"Row-Level Security", body:"An AI agent sees only the rows that user is allowed to see. PDP rules that protect dashboards protect AI responses.",          icon:icKey    },
       { title:"Column Masking",     body:"PII and sensitive fields masked at the column level. AI agents inherit the mask — they cannot reveal what the user couldn't.", icon:icShield },
       { title:"OAuth / SSO",        body:"Identity flows through to every AI interaction. No service accounts. No shared credentials. Every action is attributable.",    icon:icUserSh },
       { title:"Audit Trail",        body:"Every prompt, response, dataset access, and model invocation is logged. The same audit posture extends to AI.",               icon:icClip   },
     ];
-    const pw = 4.2, ph = 1.5, gap = 0.22;
+    const pw = 4.2, ph = 1.42, gap = 0.18;
     prims.forEach((p, i) => {
       const col = i%2, row = Math.floor(i/2);
-      const px = 0.55+col*(pw+gap); const py = 1.28+row*(ph+gap);
+      const px = 0.55+col*(pw+gap); const py = 1.72+row*(ph+gap);
       card(s, pres, px, py, pw, ph, { icon:p.icon, title:p.title, body:p.body });
     });
-    s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:4.55, w:8.9, h:0.38, fill:{color:C.neutral1} });
+    s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:4.78, w:8.9, h:0.22, fill:{color:C.neutral1} });
     s.addText("If your governance model already works for your dashboards, it already works for your AI.", {
-      x:0.75, y:4.55, w:8.5, h:0.38, fontFace:F, fontSize:10, bold:true, italic:true, color:C.charcoal, valign:"middle", margin:0,
+      x:0.75, y:4.78, w:8.5, h:0.22, fontFace:F, fontSize:10, bold:true, italic:true, color:C.charcoal, valign:"middle", margin:0,
     });
   }
 
@@ -764,9 +771,9 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 18);
     lensChip(s, "LENS 3");
-    titleBar(s, pres, "Every Request. Every Dataset. Logged.", "Domo Stats AI Activity Log — every prompt, dataset access, model, and status. Governance built in.", true);
-    // Actual AI Activity Log screenshot (5:2 ratio → w:8.9, h:3.30); reduced to leave room for chips
-    s.addImage({ data:scr18, x:0.55, y:1.32, w:8.9, h:3.30, sizing:{type:"contain", w:8.9, h:3.30} });
+    titleBar(s, pres, "Every Request. Every Dataset. Logged.", "Domo Stats AI Activity Log — every prompt, dataset access, model, and status. Governance built in.", true, 2);
+    // Content at y:1.72 (lines=2). Screenshot h:2.90 so it ends at 4.62, chips at y:4.70 unchanged.
+    s.addImage({ data:scr18, x:0.55, y:1.72, w:8.9, h:2.90, sizing:{type:"contain", w:8.9, h:2.90} });
     // Field chips below — fy:4.70+fh:0.24 = 4.94, clear of footer at 5.15
     const fields = ["Who","When","Prompt","Response","Datasets touched","Model","Status"];
     const fw = 1.18, fh = 0.24, fy = 4.70;
@@ -832,14 +839,15 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.background = { color:C.white };
     addFooter(s, pres, 20);
     lensChip(s, "LENS 4");
-    titleBar(s, pres, "In Practice: A Real Production AI Workflow", "A regulated financial-services firm — identifying details removed.", true);
+    titleBar(s, pres, "In Practice: A Real Production AI Workflow", "A regulated financial-services firm — identifying details removed.", true, 2);
+    // Content at y:1.72 (lines=2). Steps sh:1.80 ends at 3.52; WHY block starts at 3.60.
     const steps = [
       { label:"Claims & Risk Data",   sub:"Core systems of record",       icon:icDB },
       { label:"Governed Boundary",    sub:"Inference inside the firm's cloud", icon:icShield },
       { label:"Policy-Aware AI Agent",sub:"Pattern detection + guidance match",icon:icRobot },
       { label:"Action",               sub:"Recommendations to the operations team",icon:icUsers },
     ];
-    const sw = 1.95, sy = 1.35, sh = 2.0, gap = 0.32;
+    const sw = 1.95, sy = 1.72, sh = 1.80, gap = 0.32;
     steps.forEach((st, i) => {
       const sx = 0.55 + i*(sw+gap);
       const dark = i===1||i===2;
@@ -853,14 +861,14 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
       s.addShape(pres.shapes.OVAL, { x:circX, y:circY, w:cs, h:cs, fill:{color:circFill} });
       s.addImage({ data:st.icon, x:circX+(cs-0.3)/2, y:circY+(cs-0.3)/2, w:0.3, h:0.3 });
       s.addText(st.label, { x:sx+0.1, y:circY+0.55, w:sw-0.2, h:0.48, fontFace:F, fontSize:10, bold:true, color:tc, align:"center", margin:0, lineSpacingMultiple:0.95 });
-      s.addText(st.sub,   { x:sx+0.1, y:circY+1.08, w:sw-0.2, h:0.5,  fontFace:F, fontSize:8.5, color:bc, align:"center", margin:0, lineSpacingMultiple:1.1 });
+      s.addText(st.sub,   { x:sx+0.1, y:circY+1.08, w:sw-0.2, h:0.45, fontFace:F, fontSize:8.5, color:bc, align:"center", margin:0, lineSpacingMultiple:1.1 });
       if (i < 3) s.addImage({ data:icArrow, x:sx+sw+0.06, y:sy+sh/2-0.08, w:0.2, h:0.2 });
     });
-    s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:3.55, w:8.9, h:1.28, fill:{color:C.charcoal}, shadow:mkShadow() });
-    s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:3.55, w:0.07, h:1.28, fill:{color:C.accentOrange}, line:{color:C.accentOrange} });
-    s.addText("WHY THIS PASSES LENS 4", { x:0.78, y:3.62, w:8.5, h:0.28, fontFace:F, fontSize:9, bold:true, color:C.accentOrange, margin:0 });
+    s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:3.60, w:8.9, h:1.20, fill:{color:C.charcoal}, shadow:mkShadow() });
+    s.addShape(pres.shapes.RECTANGLE, { x:0.55, y:3.60, w:0.07, h:1.20, fill:{color:C.accentOrange}, line:{color:C.accentOrange} });
+    s.addText("WHY THIS PASSES LENS 4", { x:0.78, y:3.67, w:8.5, h:0.28, fontFace:F, fontSize:9, bold:true, color:C.accentOrange, margin:0 });
     s.addText("The sensitive data never crosses a trust boundary the firm doesn't already own. The AI does real, high-value work — inside the same governance envelope that protects regulated data today. That's the test.", {
-      x:0.78, y:3.94, w:8.5, h:0.72, fontFace:F, fontSize:10, color:C.neutral3, margin:0, lineSpacingMultiple:1.2,
+      x:0.78, y:3.99, w:8.5, h:0.75, fontFace:F, fontSize:10, color:C.neutral3, margin:0, lineSpacingMultiple:1.2,
     });
   }
 
