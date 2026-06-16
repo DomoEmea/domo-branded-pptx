@@ -39,7 +39,7 @@ async function icon64(Ic, color = "#99CCEE", size = 256) {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 function addFooter(s, pres, n) {
-  s.addShape(pres.shapes.LINE,      { x:0.5, y:5.15, w:9.0, h:0, line:{color:C.neutral3, width:0.5} });
+  s.addShape(pres.shapes.LINE,      { x:0.5, y:5.15, w:9.0, h:0, line:{color:C.domoBlue, width:0.5} });
   s.addImage({ data:logoIcon,         x:0.35, y:5.2,  w:0.38, h:0.38 });
   s.addText("CONFIDENTIAL",          { x:7.0, y:5.2, w:2.0, h:0.3, fontFace:F, fontSize:8, color:C.neutral4, align:"right", margin:0 });
   s.addText(String(n),               { x:9.2, y:5.2, w:0.4, h:0.3, fontFace:F, fontSize:9, bold:true, color:C.charcoal, align:"center", margin:0 });
@@ -141,7 +141,7 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
     s.addShape(pres.shapes.RECTANGLE, { x, y, w, h:0.06, fill:{color:accent}, line:{color:accent} });
     if (icon) {
       const cs = 0.46; const circFill = dark ? C.neutral1 : C.charcoal;
-      const cx = x + 0.18; const cy = y + 0.18;
+      const cx = x + 0.18; const cy = fullWidthBody ? y + 0.18 : y + (h - cs) / 2;
       s.addShape(pres.shapes.OVAL, { x:cx, y:cy, w:cs, h:cs, fill:{color:circFill} });
       s.addImage({ data:icon, x:cx + (cs-0.3)/2, y:cy + (cs-0.3)/2, w:0.3, h:0.3 });
     }
@@ -299,9 +299,6 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
         x:cx+0.2, y:subY+1.65, w:cw-0.4, h:1.2, fontFace:F, fontSize:9, color:C.neutral3, margin:0, lineSpacingMultiple:1.15,
       });
     }
-    // Arrow FOUNDATION → ACTIVATION — centered in 0.08" gap; image extends slightly into columns
-    s.addImage({ data:icArrow, x:3.76, y:colY+colH/2-0.08, w:0.16, h:0.16 });
-
     // ── ACTIVATION ───────────────────────────────────────────────────────────
     {
       const cx = 3.88, cw = 2.15;
@@ -318,9 +315,6 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
         x:cx+0.15, y:circY+1.25, w:cw-0.3, h:1.6, fontFace:F, fontSize:9, color:C.neutral3, align:"center", margin:0, lineSpacingMultiple:1.15,
       });
     }
-    // Arrow ACTIVATION → DISTRIBUTION — centered in 0.08" gap; image extends slightly into columns
-    s.addImage({ data:icArrow, x:5.99, y:colY+colH/2-0.08, w:0.16, h:0.16 });
-
     // ── DISTRIBUTION ──────────────────────────────────────────────────────────
     {
       const cx = 6.11, cw = 2.15;
@@ -351,6 +345,10 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
         x:cx+0.08, y:circY+0.55, w:cw-0.16, h:2.3, fontFace:F, fontSize:8, color:C.neutral3, align:"center", margin:0, lineSpacingMultiple:1.15,
       });
     }
+
+    // Arrows drawn AFTER all columns so they render on top of column backgrounds
+    s.addImage({ data:icArrow, x:3.76, y:colY+colH/2-0.08, w:0.16, h:0.16 });
+    s.addImage({ data:icArrow, x:5.99, y:colY+colH/2-0.08, w:0.16, h:0.16 });
 
     // ── Bottom bar ────────────────────────────────────────────────────────────
     s.addShape(pres.shapes.RECTANGLE, { x:0.35, y:4.78, w:9.3, h:0.28, fill:{color:dark2} });
@@ -502,10 +500,6 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
         ty += 0.82;
       });
     }
-    // Arrow — centered in 0.30" gap (4.85 to 5.15), ends at 5.075 well clear of Production
-    s.addImage({ data:icArrow, x:4.93, y:cy+ch/2-0.08, w:0.15, h:0.15 });
-    s.addShape(pres.shapes.RECTANGLE, { x:4.50, y:cy+ch/2+0.06, w:1.00, h:0.22, fill:{color:C.white}, line:{color:C.neutral3, width:0.75} });
-    s.addText("hardens into", { x:4.50, y:cy+ch/2+0.06, w:1.00, h:0.22, fontFace:F, fontSize:9, italic:true, color:C.neutral4, align:"center", valign:"middle", margin:0 });
     // Production column
     {
       const cx = 5.15;
@@ -526,6 +520,10 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
         ty += 0.92;
       });
     }
+    // Arrow + "hardens into" pill drawn AFTER both columns so they appear on top
+    s.addImage({ data:icArrow, x:4.93, y:cy+ch/2-0.08, w:0.15, h:0.15 });
+    s.addShape(pres.shapes.RECTANGLE, { x:4.50, y:cy+ch/2+0.06, w:1.00, h:0.22, fill:{color:C.white}, line:{color:C.neutral3, width:0.75} });
+    s.addText("hardens into", { x:4.50, y:cy+ch/2+0.06, w:1.00, h:0.22, fontFace:F, fontSize:9, italic:true, color:C.neutral4, align:"center", valign:"middle", margin:0 });
   }
 
   // ═══════════════════════════════════════════════════════════════════════════
@@ -937,8 +935,9 @@ function numberedCircle(s, pres, n, x, y, sz, bgColor, txtColor, fontSize) {
       const dx = 0.55 + i*(dw+gap);
       s.addShape(pres.shapes.RECTANGLE, { x:dx, y:dy, w:dw, h:dh, fill:{color:C.neutral1}, shadow:mkShadow() });
       s.addShape(pres.shapes.RECTANGLE, { x:dx, y:dy, w:dw, h:0.5, fill:{color:C.charcoal} });
-      s.addText(d.label, { x:dx, y:dy, w:dw, h:0.28, fontFace:F, fontSize:9, bold:true, color:C.domoBlue, align:"center", valign:"middle", margin:0, charSpacing:1 });
-      const cs = 0.36; const oy = dy+0.22;
+      // label occupies top 0.32" of header; circle centered at grey/white boundary (dy+0.50)
+      s.addText(d.label, { x:dx, y:dy, w:dw, h:0.32, fontFace:F, fontSize:9, bold:true, color:C.domoBlue, align:"center", valign:"middle", margin:0, charSpacing:1 });
+      const cs = 0.36; const oy = dy+0.32; // oy = boundary(0.50) - cs/2(0.18) = dy+0.32 → equal halves in grey/white
       numberedCircle(s, pres, d.n, dx+(dw-cs)/2, oy, cs, C.domoBlue, C.charcoal, 13);
       // circY centers content (icon 0.52 + gap 0.13 + title 0.55 + gap 0.08 + body 0.85 = 2.13)
       // in available (dh 3.55 - header 0.50 = 3.05): padding = (3.05-2.13)/2 = 0.46
